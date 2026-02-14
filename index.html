@@ -14904,6 +14904,8 @@ Copyright (c) 2015 Daniel Eden
 </ol>
 </div>
 </section>
+
+
 <section class="fam" id="fam">
 <div class="form-and-map">
 <div class="form">
@@ -14917,36 +14919,82 @@ Copyright (c) 2015 Daniel Eden
                             заполните форму ниже
                         </p>
 <!-- Форма обратной связи -->
-<form action="#">
-<!-- Каждый input для выравнивания вкладываем в блок input-box -->
-<div class="input-box">
-<input id="name" placeholder="Ваше имя" type="text"/>
-</div>
-<div class="input-box">
-<input id="mail" placeholder="Введите email" type="email"/>
-</div>
-<div class="input-box">
-<input id="mail" name="mail" placeholder="Введите телефон" type="email"/>
-</div>
-<div class="input-box message-box">
-<textarea placeholder="Сообщение"></textarea>
-</div>
-<div class="button" id="buttonForm">
-<input type="button" value="Отправить"/>
-</div>
+
+<iframe id="formFrame" name="formFrame" style="display:none;"></iframe>
+
+<form id="contactForm"
+      action=""
+      method="POST"
+      target="formFrame"
+      autocomplete="on">
+
+  <input type="hidden" name="secret" value="rimas_sait_raw_secret_2026">
+  <input type="text" name="bot-field" class="hp" tabindex="-1" autocomplete="off">
+
+  <div class="input-box">
+    <input id="name" name="name" placeholder="Ваше имя" type="text" required>
+  </div>
+
+  <div class="input-box">
+    <input id="email" name="email" placeholder="Введите email" type="email" required>
+  </div>
+
+  <div class="input-box">
+    <input id="phone" name="phone" placeholder="Введите телефон" type="tel" inputmode="tel" required>
+  </div>
+
+  <div class="input-box message-box">
+    <textarea id="message" name="message" placeholder="Сообщение" required></textarea>
+  </div>
+
+  <div class="button" id="buttonForm">
+    <input id="submitBtn" type="submit" value="Отправить">
+  </div>
+
+  <div id="formStatus" class="form-status" aria-live="polite"></div>
 </form>
-</div>
-</div>
+
+<style>
+  .hp{ display:none !important; }
+  .form-status{ margin-top:10px; font-size:14px; }
+</style>
+
+<script>
+(() => {
+  const form = document.getElementById('contactForm');
+  const frame = document.getElementById('formFrame');
+  const status = document.getElementById('formStatus');
+  const btn = document.getElementById('submitBtn');
+  if (!form || !frame) return;
+
+  form.addEventListener('submit', () => {
+    status.textContent = 'Отправляем…';
+    btn.disabled = true;
+  });
+
+  frame.addEventListener('load', () => {
+    // load сработает после ответа Apps Script
+    status.textContent = 'Спасибо! Сообщение отправлено.';
+    btn.disabled = false;
+    form.reset();
+  });
+})();
+</script>
+
+
+
 <div class="mapa">
-<div class="map-contenier">
-<div class="map map-placeholder"><div class="map-title">Карта (офлайн-режим)</div><div>При открытии файла без интернета интерактивная карта недоступна.</div><a href="https://yandex.ru/map-widget/v1/?um=constructor%3A25b647f8912936eb9716bc6e8a8a9af53cf6623f1e9f73dcdcbd92e62a9553eb&amp;source=constructor" rel="noopener" target="_blank">Открыть в Яндекс.Картах</a></div>
-</div>
-<div class="map-contact">
-<p>398042, г. Липецк, ул. Московская, д. 6АС1, оф. 316</p>
-<p>+7 909 219-99-00 </p>
-<p>info@rimas.su</p>
-</div>
-</div>
+                <div class="map-contenier">
+                    <iframe class="map"
+                        src="https://yandex.ru/map-widget/v1/?um=constructor%3A25b647f8912936eb9716bc6e8a8a9af53cf6623f1e9f73dcdcbd92e62a9553eb&amp;source=constructor"
+                        width="500" height="400" frameborder="0"></iframe>
+                </div>
+                <div class="map-contact">
+                    <p>398042, г. Липецк, ул. Московская, д. 6АС1, оф. 316</p>
+                    <p>+7 909 219-99-00 </p>
+                    <p>info@rimas.su</p>
+                </div>
+            </div>
 <!-- <div class="right-map">
     
             </div> -->
